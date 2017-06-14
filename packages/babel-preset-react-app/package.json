@@ -1,5 +1,5 @@
 {
-  "name": "babel-preset-react-app",
+  "name": "@emsoft/babel-preset-react-app",
   "version": "3.0.0",
   "description": "Babel preset used by Create React App",
   "repository": "facebookincubator/create-react-app",
@@ -11,6 +11,7 @@
     "index.js"
   ],
   "dependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-dynamic-import-node": "1.0.2",
     "babel-plugin-syntax-dynamic-import": "6.18.0",
     "babel-plugin-transform-class-properties": "6.24.1",

@@ -36,6 +36,13 @@ const plugins = [
       regenerator: true,
     },
   ],
+  // Transforms decortators
+  [
+    require.resolve('babel-plugin-transform-decorators-legacy'),
+    {
+      useBuiltIns: true,
+    },
+  ],
 ];
 
 // This is similar to how `env` works in Babel:
@@ -48,10 +55,10 @@ var env = process.env.BABEL_ENV || process.env.NODE_ENV;
 if (env !== 'development' && env !== 'test' && env !== 'production') {
   throw new Error(
     'Using `babel-preset-react-app` requires that you specify `NODE_ENV` or ' +
-      '`BABEL_ENV` environment variables. Valid values are "development", ' +
-      '"test", and "production". Instead, received: ' +
-      JSON.stringify(env) +
-      '.'
+    '`BABEL_ENV` environment variables. Valid values are "development", ' +
+    '"test", and "production". Instead, received: ' +
+    JSON.stringify(env) +
+    '.'
   );
 }
 
@@ -69,6 +76,11 @@ if (env === 'development' || env === 'test') {
     require.resolve('babel-plugin-transform-react-jsx-self'),
   ]);
 }
+
+
+
+
+
 
 if (env === 'test') {
   module.exports = {
@@ -88,6 +100,26 @@ if (env === 'test') {
     plugins: plugins.concat([
       // Compiles import() to a deferred require()
       require.resolve('babel-plugin-dynamic-import-node'),
+    ]),
+  };
+} else if (process.env.REACT_APP_BROWSER) {
+  module.exports = {
+    presets: [
+      // ES features necessary for user's Node version
+      [
+        require('babel-preset-env').default,
+        {
+          targets: {
+            [process.env.REACT_APP_BROWSER]: 'current',
+          },
+        },
+      ],
+      // JSX, Flow
+      require.resolve('babel-preset-react'),
+    ],
+    plugins: plugins.concat([
+      // Compiles import() to a deferred require()
+      require.resolve('babel-plugin-syntax-dynamic-import'),
     ]),
   };
 } else {
